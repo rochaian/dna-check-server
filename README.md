@@ -1,4 +1,3 @@
-```markdown
 # Backend de Verificação de DNA
 
 Este é um projeto de backend em Node.js com TypeScript para verificar sequências de DNA. Ele possui um endpoint de API `/api/checkdna` que recebe uma matriz de DNA (representada por um array bidimensional) e verifica se há sequências de quatro letras iguais nas direções horizontais, verticais ou diagonais.
