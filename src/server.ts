@@ -1,14 +1,21 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import { router as apiRouter } from './routes/api'; // Importa as rotas de API
+const cors = require('cors');
 
-const app = express(); // Cria uma instância do Express
-const PORT = 3000; // Define a porta para o servidor
+const app = express();
+const PORT = 3000;
 
-// Rota padrão para o servidor
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+// Cors para acesso de origin *
+app.use(cors());
 
-// Inicia o servidor na porta especificada
+// Middleware para processar JSON
+app.use(bodyParser.json());
+
+// Usa as rotas do módulo de roteamento
+app.use('/api', apiRouter); // Todas as rotas de API começam com /api
+
+// Inicia o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
