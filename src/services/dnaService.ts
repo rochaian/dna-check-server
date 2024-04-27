@@ -1,3 +1,5 @@
+import { DnaModel } from '../models/DnaModel'; // Certifique-se de ajustar o caminho para o modelo
+
 type DnaResult = 'HUMANO' | 'SIGMANO'; // Define um tipo union com valores específicos
 
 var dnaResult: DnaResult = 'HUMANO'; // Define a variável com um dos valores permitidos
@@ -50,6 +52,29 @@ function checkHorizontal(dna: string[][]): boolean {
     }
     return false;
 }
+
+
+// Função para salvar um resultado de DNA no MongoDB
+export const saveDnaResult = async (dnaArray: string[][], result: string) => {
+    const dnaString = JSON.stringify(dnaArray); // Converte o array para string
+  
+    const dnaResult = new DnaModel({
+      dna: dnaString,
+      result,
+    });
+  
+    await dnaResult.save(); // Salva no MongoDB
+  };
+  
+  // Função para recuperar um resultado de DNA do MongoDB
+  export const getDnaResult = async (dnaArray: string[][]) => {
+    const dnaString = JSON.stringify(dnaArray); // Converte o array para string
+  
+    const existingResult = await DnaModel.findOne({ dna: dnaString });
+  
+    return existingResult; // Retorna o resultado existente
+  };
+
 
 // Função para verificar sequências verticais de quatro letras iguais
 function checkVertical(dna: string[][]): boolean {

@@ -1,17 +1,25 @@
 import { Request, Response } from 'express';
-import { checkDnaSequences } from '../services/dnaService';
+import { getDnaResult, saveDnaResult } from '../services/dnaService';
+import { checkDnaSequences } from '../services/dnaService'; // Função que verifica sequências de DNA
 
-export const checkDnaController = (req: Request, res: Response) => {
-  const dna: string[][] = req.body.dna;
+export const checkDnaController = async (req: Request, res: Response) => {
+  const dnaArray = req.body.dna;
 
-  // Verifica se o DNA é válido
-  if (!Array.isArray(dna) || !dna.every(row => Array.isArray(row))) {
-    return res.status(400).json({ error: 'Invalid DNA data' });
+  console.log('verificando no banco...');
+  const existingResult = await getDnaResult(dnaArray); // Verifica se já existe
+
+  if (existingResult) {
+    console.log('existe no banco');
+    console.log(existingResult.result);
+    return res.json({dnaResult: existingResult.result}); // Se existir, retorna o resultado
   }
 
-  // Chama a função para verificar sequências no DNA
-  const result = checkDnaSequences(dna);
+  // Se não existir, calcula o resultado e salva no MongoDB
+  console.log('não existe no banco.');
+  const result = checkDnaSequences(dnaArray); // Verifica sequências de DNA
 
-  // Retorna o objeto com os detalhes
-  res.json(result);
+  console.log('salvando no banco resultado.')
+  await saveDnaResult(dnaArray, result.dnaResult); // Salva no MongoDB
+
+  return res.json(result);
 };

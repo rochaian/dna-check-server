@@ -1,6 +1,6 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import { router as apiRouter } from './routes/api'; // Importa as rotas de API
+import { mongodbConfig } from './configs/mongodbConfig';
+import { router }  from './routes/api';
 const cors = require('cors');
 
 const app = express();
@@ -9,13 +9,14 @@ const PORT = 3000;
 // Cors para acesso de origin *
 app.use(cors());
 
-// Middleware para processar JSON
-app.use(bodyParser.json());
+app.use(express.json()); // Middleware para processar JSON
 
-// Usa as rotas do módulo de roteamento
-app.use('/api', apiRouter); // Todas as rotas de API começam com /api
+// Conecta ao MongoDB
+mongodbConfig(); // Estabelece a conexão ao iniciar
 
-// Inicia o servidor
+// Usa as rotas da API
+app.use('/api', router);
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
