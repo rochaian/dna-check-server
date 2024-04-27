@@ -2,12 +2,18 @@
 
 Este é um projeto de backend em Node.js com TypeScript para verificar sequências de DNA. Ele possui um endpoint de API `/api/checkdna` que recebe uma matriz de DNA (representada por um array bidimensional) e verifica se há sequências de quatro letras iguais nas direções horizontais, verticais ou diagonais.
 
+
+Você pode testar o projeto acessando o link
+[Frontend](https://dna-check.vercel.app/)
+[Backend](https://dna-check-server.onrender.com)
+
 ## Estrutura do Projeto
 
 - **Servidor**: Configuração do servidor Node.js com Express.
 - **Roteamento**: Rotas de API para gerenciar endpoints.
 - **Controladores**: Controla a lógica associada a cada rota.
 - **Serviços**: Lógica de negócios para verificar sequências de DNA.
+- **Configurações**: Configuração de conexão com o banco de dados MongoDB
 
 ## Configuração
 
